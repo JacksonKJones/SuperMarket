@@ -29,7 +29,7 @@ public class RateActivity extends DialogFragment {
 
         getDialog().setTitle("Rate the Following:");
 
-        final RatingBar lq = view.findViewById(R.id.ratingBar);
+        final RatingBar lq = view.findViewById(R.id.liquorRating);
         lq.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
@@ -37,7 +37,7 @@ public class RateActivity extends DialogFragment {
             }
         });
 
-        final RatingBar pd = view.findViewById(R.id.ratingBar2);
+        final RatingBar pd = view.findViewById(R.id.produceRating);
         pd.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
@@ -45,7 +45,7 @@ public class RateActivity extends DialogFragment {
             }
         });
 
-        final RatingBar md = view.findViewById(R.id.ratingBar3);
+        final RatingBar md = view.findViewById(R.id.meatRating);
         md.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
@@ -53,7 +53,7 @@ public class RateActivity extends DialogFragment {
             }
         });
 
-        final RatingBar cs = view.findViewById(R.id.ratingBar4);
+        final RatingBar cs = view.findViewById(R.id.cheeseRating);
         cs.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
@@ -61,7 +61,7 @@ public class RateActivity extends DialogFragment {
             }
         });
 
-        final RatingBar ec = view.findViewById(R.id.ratingBar5);
+        final RatingBar ec = view.findViewById(R.id.checkoutRating);
         ec.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
