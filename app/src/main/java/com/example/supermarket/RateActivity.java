@@ -1,87 +1,78 @@
 package com.example.supermarket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 
-public class RateActivity extends DialogFragment {
-
-    RatingBar liquor;
-    RatingBar produce;
-    RatingBar meat;
-    RatingBar cheese;
-    RatingBar checkout;
-
-    public interface SaveRatingListener {
-        void didFinishRateActivity(float a, float b, float c, float d, float e);
-    }
-
-    public RateActivity() {}
+public class RateActivity extends AppCompatActivity {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.rate_activity, container);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.rate_activity);
+        //Unwraps bundle from intent
+        Bundle extras = getIntent().getExtras();
+        //Need key set string
+        String supermarketName = extras.getString("marketName");
+        String supermarketAddress = extras.getString("marketAddress");
 
-        getDialog().setTitle("Rate the Following:");
+        RatingBar liquor = findViewById(R.id.liquorRating);
+        RatingBar produce = findViewById(R.id.produceRating);
+        RatingBar meat = findViewById(R.id.meatRating);
+        RatingBar cheese = findViewById(R.id.cheeseRating);
+        RatingBar checkout = findViewById(R.id.checkoutRating);
+        Button submitButton = findViewById(R.id.buttonSubmit);
+        TextView averageRating = findViewById(R.id.average);
 
-        final RatingBar lq = view.findViewById(R.id.liquorRating);
-        lq.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                liquor.setRating(v);
-            }
-        });
+        produce.setRating(3f);
+        cheese.setRating(3f);
+        meat.setRating(3f);
+        liquor.setRating(3f);
+        checkout.setRating(3f);
 
-        final RatingBar pd = view.findViewById(R.id.produceRating);
-        pd.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                produce.setRating(v);
-            }
-        });
-
-        final RatingBar md = view.findViewById(R.id.meatRating);
-        md.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                meat.setRating(v);
-            }
-        });
-
-        final RatingBar cs = view.findViewById(R.id.cheeseRating);
-        cs.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                cheese.setRating(v);
-            }
-        });
-
-        final RatingBar ec = view.findViewById(R.id.checkoutRating);
-        ec.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                checkout.setRating(v);
-            }
-        });
-
-        Button submit = view.findViewById(R.id.buttonSubmit);
-        submit.setOnClickListener(new View.OnClickListener() {
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveRatings(liquor.getRating(), produce.getRating(), meat.getRating(), cheese.getRating(), checkout.getRating());
+                Rating supermarket = new Rating();
+                supermarket.setName(supermarketName);
+                supermarket.setAddress(supermarketAddress);
+
+                float produceRating = produce.getRating();
+                float cheeseRating = cheese.getRating();
+                float meatRating = meat.getRating();
+                float liquorRating = liquor.getRating();
+                float checkoutRating = checkout.getRating();
+
+                supermarket.setProduce(produceRating);
+                supermarket.setCheese(cheeseRating);
+                supermarket.setMeat(meatRating);
+                supermarket.setLiquor(liquorRating);
+                supermarket.setCheckout(checkoutRating);
+                System.out.println(supermarket.toString());
+
+                Float average = (liquorRating + produceRating + cheeseRating + meatRating + checkoutRating)/5;
+
+                averageRating.setText("Average Rating: " + average);
+
+                RatingDBHelper db = new RatingDBHelper(RateActivity.this);
+                db.addRating(supermarket);
             }
         });
-        return view;
     }
 
-    private void saveRatings(float a, float b, float c, float d, float e) {
-        SaveRatingListener activity = (SaveRatingListener) getActivity();
-        activity.didFinishRateActivity(a, b, c, d, e);
-        getDialog().dismiss();
+
+    private void launchMain(View v){
+        Intent i = new Intent(RateActivity.this, MainActivity.class);
+        i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
     }
 }
