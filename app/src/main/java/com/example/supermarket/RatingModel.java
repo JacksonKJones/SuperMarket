@@ -1,7 +1,5 @@
 package com.example.supermarket;
 
-import android.text.String;
-
 public class RatingModel {
     private String name;
     private String address;
