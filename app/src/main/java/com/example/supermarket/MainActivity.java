@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Rating currentRating;
+    private Rating currentRating1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         initRateButton();
 
-        currentRating = new Rating();
+        currentRating1 = new Rating();
     }
 
     private void initRateButton() {
